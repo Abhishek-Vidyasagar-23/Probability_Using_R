@@ -1,0 +1,234 @@
+---
+title: "Bet_Me_Answers"
+author: "Abhishek Vidyasagar"
+date: "15 April 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.a. Probability for A to win the match
+## Binomial distribution helps in solving this problem
+## Given that the player has already won the first frame with 0.55, he has to win 4 four more to win the game out of the remaining 8 frames. 
+```{r}
+size = 8 # No of frames
+ x=4 # desired number of outcomes
+ p= 0.5 # probability of win or lose
+ 
+ a= dbinom(x=4,size = 8, p= 0.5)
+ a_probability= a +0.55 # adding the first frame to find overall probability
+ 
+print(paste("Probability of A winning the match is ",round(a_probability,digits = 2)))
+```
+## 1.a. Probability for A to win the match
+## To solve this we are using density Binomial Distribution.
+## Given that the player has already won the first frame with 0.55, he has to win 4 four more to win the game out of the remaining 8 frames. 
+```{r}
+size = 8 # No of frames
+ x=4 # desired number of outcomes
+ p= 0.5 # probability of win or lose
+ 
+ a= dbinom(x=4,size = 8, p= 0.5)
+ a_probability= a +0.55 # adding the first frame to find overall probability
+ 
+print(paste("Probability of A winning the match is ",round(a_probability,digits = 4)))
+```
+## 1.b Probability for atleast 8 frames to be played
+## Atleast 8 Frames , x=8,x=9
+## Probability = sum of (x=8, x=9)
+```{r}
+# probability of such an event to occur is 8/9 = 0.88
+p=0.88
+# event 1 when 8 games are played
+x1= 8
+size= 9
+a1= dbinom(x=8,size = 9, p= 0.88)
+x2=9
+
+# event 2 when 9th game is played
+x2=9
+size= 9
+a2= dbinom(x=9,size = 9,p=0.88)
+sum_probability= a1 + a2
+
+
+
+print(paste("The Probability for atleast 8 frames to be played is",round(sum_probability,digits = 4)))
+
+```
+## 1.a. Probability for A to win the match
+## To solve this we are using density Binomial Distribution.
+## Given that the player has already won the first frame with 0.55, he has to win 4 four more to win the game out of the remaining 8 frames. 
+```{r}
+size = 8 # No of frames
+ x=4 # desired number of outcomes
+ p= 0.5 # probability of win or lose
+ 
+ a= dbinom(x=4,size = 8, p= 0.5)
+ a_probability= a +0.55 # adding the first frame to find overall probability
+ 
+print(paste("Probability of A winning the match is ",round(a_probability,digits = 2)))
+```
+## 1.b Probability for atleast 8 frames to be played
+## Atleast 8 Frames , x=8,x=9
+## Probability = sum of (x=8, x=9)
+```{r}
+# probability of such an event to occur is 8/9 = 0.88
+p=0.88
+# event 1 when 8 games are played
+x1= 8
+size= 9
+a1= dbinom(x=8,size = 9, p= 0.88)
+x2=9
+
+# event 2 when 9th game is played
+x2=9
+size= 9
+a2= dbinom(x=9,size = 9,p=0.88)
+sum_probability= a1 + a2
+
+
+
+print(paste("The Probability for atleast 8 frames to be played is",round(sum_probability,digits = 2)))
+
+```
+## 1.c Appropriate level of odds for B to win the game
+## We only know A's winning for first frame which is 0.55
+## Thus We can consider B's probability for the first frame is 1-0.55= 0.45
+## For B to win the match, B also has to win 5 games 
+## After calculating B's Probabiility we consider the odds which is the ratio of Desired Outcome with Expected Outcomes
+## For odds we need to download odds.converter package
+
+```{r}
+# probability of B
+x= 5
+size = 8
+p= 0.45
+b_prob = dbinom(x=5,size=8,p=0.45)
+b_prob = b_prob + 0.45
+print(paste("B's Probability to win the match is ",round(b_prob,digits = 2)))
+
+# odds for B
+# odds.prob2dec: Given Probabity is converted to Decimal odds
+b_odd = odds.prob2dec(b_prob)
+print(paste("B's Odds to win the match is",round(b_odd,digits = 3)))
+```
+## 3  Probability of Player B winning the game given A is serving.
+## P(A) = 0.52 on any given serve, thus P(B) = 1-P(A) = 0.48 at any given serve
+## There are 4 points to be won and  won  by atleast 2 points
+## we are considering that the first to reach 4 points with difference of 2 points wins
+## Deuce is not considered.
+```{r}
+
+p=0.48
+game_nil= dbinom(4,size = 4,p=0.48)
+game_1= p*(dbinom(3,size = 4,p=0.48))
+game_2= p*(dbinom(3,size=5,p=0.48))
+winning_probability= sum(game_1,game_2,game_nil)
+
+print(paste("Probability of B winning the game is ",round(winning_probability,digits= 4)))
+```
+
+## 4 Given five horses Odds are given we convert them from odds to probability using odds converter in order to get the probability of each horse to win the game. However the condition for such occurance to happen is given in the answer below
+## Since there are 5 horses and 5 places, the sample size is 5^5, and we are interested in this particular combination,
+## Converting the odds to probability we are considering every horse's probability to win the race
+
+## We are assuming the Prize as overall probability as such an event occuring
+```{r}
+horse_list_odds = c(3.03,6.66,3.12,6.25,25)
+horse_list_probability = odds.dec2prob(horse_list_odds)
+# Get the required horse's values
+horse_a =horse_list_probability[1]
+horse_b= horse_list_probability[2]
+horse_c= horse_list_probability[3]
+prob_first_second_third= (1/5)*(1/4)*(1/3)
+prob_first_second_third
+overall_probability = (horse_a*horse_b*horse_c)*prob_first_second_third
+print(paste("Prize for such an even occuring is",overall_probability))
+
+```
+
+## 2.a Given there are teams A with goal expectency of 1.5 & 1.25 Respectively.
+## Probability of A winning the game
+## usually R has its own inbuilt Poisson Formula, however they do not accept non-integer numbers, thus we have to create an user-defined function replicating Euler's formula to find out A's Probability to win the game
+```{r}
+# lambda value for A will be goal expectency
+team_a_probability <- function() {
+  a_lambda= 1.5
+  # since we don't have the winning probability, we will assume the new value y 0.5 * goal_expectency as this is the change in event within a given period of time
+  # as there are two 
+  y= a_lambda*0.5
+  y_factorial = factorial(y)
+  euler_number = exp(1) # Euler constant in R is exp(1)
+  winning_event= (((a_lambda)^y)*(euler_number^-a_lambda))/y_factorial
+  winning_event
+  
+    
+}
+print(paste("The winning probability of Team A is ",round(team_a_probability(),digits = 4)))
+
+
+```
+## 2.b Estimating the probability of atleast 2.5 Goals
+## As per the given data we have goals for team A & team B which is 1.5,1.25 respectively
+## Normally there is 2.75 Goals( A+B) between them, thus lambda= 2.75
+## Atleast 2.5 goals: >=2.5 : new values y1= 2.5 and y2= 2.75 
+## Probability will be sum of probability y1,y2 
+
+```{r}
+# goal expectancy
+expected_goal_probability<- function(){
+  a= 1.5
+  b=1.25
+  lambda_sum=sum(a,b)
+  y1= 2.5
+  y1_factorial= factorial(y1) 
+  euler_number = exp(1)
+  event_1= (((lambda_sum)^y1)*(euler_number^-lambda_sum))/y1_factorial
+  
+  # event 2 2.75
+  y2= 2.75
+  y2_factorial = factorial(y2)
+  event_2 =(((lambda_sum)^y2)*(euler_number^-lambda_sum))/y2_factorial
+  event_2
+  
+  # Adding the events together
+  total_event_probability = sum(event_1,event_2)
+  total_event_probability
+}
+
+print(paste("The probability of atleast 2.5 goals is ",round(expected_goal_probability(),digits = 2)))
+#expected_goal_probability()
+```
+
+## 2.c  Appropriate level of odds for match to be drawn.
+##  In order to consider the probability of draw in a football match it is 0.33(Win,Loss,Draw)
+## for A it is (1/3)* goal expectancy of A.
+## for B it is (1/3) * goal expectancy of B.
+## We have to find the overall probability of drawing the match from both sides first
+## and from that probability we find the odds of drawing the match
+```{r}
+draw_odds<-function(){
+  a_old_goal= 1.5
+  b_old_goal = 1.25
+  draw_goal_a = (0.33)*a_old_goal # new value for change in event for team A
+  draw_goal_b = (0.33)*b_old_goal # new value for change in event for team B.
+  a_goal_factorial = factorial(draw_goal_a)
+  b_goal_factorial = factorial(draw_goal_b)
+  
+  e = exp(1)
+  prob_a = ((e^-a_old_goal)*(a_old_goal^draw_goal_a))/a_goal_factorial
+  prob_b = ((e^-b_old_goal)*(b_old_goal^draw_goal_b))/b_goal_factorial
+  draw_probability = prob_a+ prob_b
+  draw_odds = odds.prob2dec(draw_probability)
+  
+}
+
+
+print(paste("The Odds of the game to be drawn is ",round(draw_odds(),digits = 5)))
+
+```
+
+
